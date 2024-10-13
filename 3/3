@@ -1,0 +1,4 @@
+s = input("Введіть речення: ")
+words = s.split()
+filtered_words = [word for word in words if word.lower() != "привіт"]
+print("Слова, відмінні від 'привіт':", ' '.join(filtered_words))
