@@ -1,0 +1,5 @@
+N = int(input("Введіть кількість елементів масиву N = "))
+print(f"Введіть масив з {N} елементів:")
+arr = [float(input()) for _ in range(N)]
+max_element = max(arr)
+print(f"Максимальний елемент масиву: {max_element}")
