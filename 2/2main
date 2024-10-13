@@ -1,0 +1,5 @@
+from mod import calculate_y
+
+n = int(input("Введіть натуральне число n: "))
+y = calculate_y(n)
+print(f"Значення y: {y}")
