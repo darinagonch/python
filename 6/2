@@ -1,0 +1,12 @@
+def find_element(list, element):
+    if element in list:
+        index = list.index(element)
+        print(f"Елемент {element} знайдено на {index + 1} місці.")
+    else:
+        print(f"Елемент {element} не знайдено в списку.")
+
+user_list = list(map(int, input("Введіть список чисел: ").split()))
+
+element_to_find = int(input("Введіть числовий елемент для пошуку: "))
+
+find_element(user_list, element_to_find)
