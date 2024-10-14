@@ -1,0 +1,8 @@
+def display_symbols(sym_set):
+    symbols = sorted(sym_set)
+    print("Елементи множини в алфавітному порядку:")
+    print(symbols)
+
+symbols_set = {chr(i) for i in range(ord('a'), ord('z') + 1)} | {chr(i) for i in range(ord('A'), ord('Z') + 1)}
+
+display_symbols(symbols_set)
