@@ -1,0 +1,15 @@
+def insert_before_element(list, new_element, before_element):
+
+  if before_element in list:
+      index = list.index(before_element)
+      list.insert(index, new_element)
+  else:
+      print(f"Елемента '{before_element}' немає в списку")
+  return list
+
+user_list = input("Введіть список елементів: ").split()
+new_element = input("Введіть новий елемент для вставки: ")
+before_element = input("Введіть елемент, перед яким потрібно вставити новий елемент: ")
+new_list = insert_before_element(user_list, new_element, before_element)
+
+print("Оновлений список:", new_list)
