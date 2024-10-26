@@ -1,0 +1,88 @@
+# Дані про співробітників
+employees = {
+    "Іванов": "Київ, вул. Шевченка, 10",
+    "Петров": "Львів, вул. Дорошенка, 25",
+    "Сидоров": "Одеса, вул. Рішельєвська, 5",
+    "Кузін": "Харків, вул. Сумська, 15",
+    "Коваль": "Запоріжжя, вул. Симоненка, 8",
+    "Куравльов": "Дніпро, вул. Яворницького, 17",
+    "Кудін": "Чернігів, вул. Миру, 14",
+    "Кульков": "Черкаси, вул. Гагаріна, 12",
+    "Смирнов": "Суми, вул. Кондратьєва, 22",
+    "Кубиків": "Вінниця, вул. Соборна, 6"
+}
+
+# Функція для виведення всіх значень словника
+def display_all(employees):
+    print("Усі співробітники та їх адреси:")
+    for name, address in employees.items():
+        print(f"{name}: {address}")
+
+# Функція для додавання нового запису до словника
+def add_employee(employees, name, address):
+    if name in employees:
+        print("Запис із таким прізвищем уже існує.")
+    else:
+        employees[name] = address
+        print(f"Додано співробітника: {name} - {address}")
+
+# Функція для видалення запису з словника
+def remove_employee(employees, name):
+    if name in employees:
+        del employees[name]
+        print(f"Запис про співробітника {name} видалено.")
+    else:
+        print("Співробітника з таким прізвищем не знайдено.")
+
+# Функція для виведення словника за відсортованими ключами
+def display_sorted(employees):
+    print("Співробітники в алфавітному порядку:")
+    for name in sorted(employees.keys()):
+        print(f"{name}: {employees[name]}")
+
+# Функція для перевірки прізвищ і виведення адрес
+def check_surnames(employees, surnames):
+    found = False
+    for surname in surnames:
+        if surname in employees:
+            print(f"{surname}: {employees[surname]}")
+            found = True
+    if not found:
+        print("Жодного із заданих прізвищ у списку співробітників не знайдено.")
+
+def main():
+    while True:
+        print("\nВиберіть дію:")
+        print("1 - Вивести всіх співробітників")
+        print("2 - Додати нового співробітника")
+        print("3 - Видалити співробітника")
+        print("4 - Вивести співробітників за відсортованими прізвищами")
+        print("5 - Перевірити наявність співробітників із заданими прізвищами")
+        print("6 - Вийти")
+
+        choice = input("Ваш вибір: ")
+
+        try:
+            if choice == "1":
+                display_all(employees)
+            elif choice == "2":
+                name = input("Введіть прізвище: ")
+                address = input("Введіть місто і адресу: ")
+                add_employee(employees, name, address)
+            elif choice == "3":
+                name = input("Введіть прізвище для видалення: ")
+                remove_employee(employees, name)
+            elif choice == "4":
+                display_sorted(employees)
+            elif choice == "5":
+                surnames = ["Кузін", "Куравльов", "Кудін", "Кульков", "Кубиків"]
+                check_surnames(employees, surnames)
+            elif choice == "6":
+                print("Програма завершена.")
+                break
+            else:
+                print("Неправильний вибір. Спробуйте ще раз.")
+        except Exception as e:
+            print(f"Сталася помилка: {e}")
+
+main()
