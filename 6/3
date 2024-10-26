@@ -1,7 +1,7 @@
 def display_symbols(sym_set):
-    symbols = sorted(sym_set)
+    symbols = sorted(sym_set, key=lambda x: (x.lower(), x.islower()))
     print("Елементи множини в алфавітному порядку:")
-    print(symbols)
+    print(' '.join(symbols))
 
 symbols_set = {chr(i) for i in range(ord('a'), ord('z') + 1)} | {chr(i) for i in range(ord('A'), ord('Z') + 1)}
 
