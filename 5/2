@@ -3,4 +3,4 @@ for i in range(7):
     for j in range(7 - i):
         arr[i][j] = 7 - i - j
 for row in arr:
-    print(row)
+    print(*row)
