@@ -1,0 +1,53 @@
+import csv
+import os
+
+input_file_name = "GDP_per_capita_growth.csv"
+output_file_name = "GDP_per_capita_growth_2019_results.csv"
+
+flag = False
+
+try:
+    with open(input_file_name, "r", encoding="utf-8") as csvfile:
+        reader = csv.DictReader(csvfile)
+        print("Country Name: 2019 [YR2019]")
+
+        for row in reader:
+            print(row['Country Name'], ': ', row["2019 [YR2019]"])
+
+except FileNotFoundError:
+    print(f"Файл {input_file_name} не знайдено!")
+except KeyError:
+    print("Колонка '2019 [YR2019]' не знайдена в файлі!")
+except Exception as e:
+    print("Сталася помилка:", e)
+
+try:
+    with open(input_file_name, "r", encoding="utf-8") as csvfile:
+        reader = csv.DictReader(csvfile)
+
+        countries = input("Введіть назви країн через кому для пошуку даних за 2019 рік: ").split(",")
+        countries = [country.strip() for country in countries]
+
+        print("Country Name: 2019 [YR2019]")
+
+        with open(output_file_name, "w", newline='', encoding="utf-8") as csvfile2:
+            writer = csv.writer(csvfile2)
+            writer.writerow(["Country Name", "GDP per capita growth (2019)"])
+
+            for row in reader:
+                country_name = row['Country Name']
+                gdp_growth_2019 = row.get("2019 [YR2019]", "Дані відсутні")
+
+                if country_name in countries:
+                    flag = True
+                    print(country_name, ": ", gdp_growth_2019)
+                    writer.writerow([country_name, gdp_growth_2019])
+
+        if not flag:
+            os.system('clear')
+            print("Даних для жодної з введених країн не знайдено.")
+
+except FileNotFoundError:
+    print(f"Файл {input_file_name} не знайдено!")
+except Exception as e:
+    print("Сталася помилка:", e)
