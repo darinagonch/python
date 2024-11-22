@@ -1,0 +1,111 @@
+import json
+
+# Створення JSON файлу із початковими даними
+def create_json_file(filename):
+    data = [
+        {"surname": "Ivanov", "address": "Kyiv, Shevchenka St. 1", "position": "Manager"},
+        {"surname": "Petrov", "address": "Lviv, Bandera St. 2", "position": "Engineer"},
+        {"surname": "Sidorov", "address": "Kharkiv, Sumskaya St. 3", "position": "Accountant"},
+        {"surname": "Bondarenko", "address": "Dnipro, Heroes St. 4", "position": "Designer"},
+        {"surname": "Shevchenko", "address": "Odessa, Pushkina St. 5", "position": "Developer"},
+        {"surname": "Tkachenko", "address": "Zaporizhzhia, Tsentralna St. 6", "position": "Manager"},
+        {"surname": "Kravchuk", "address": "Chernihiv, Nezalezhnosti St. 7", "position": "QA Engineer"},
+        {"surname": "Dovzhenko", "address": "Poltava, Kotsiubynskoho St. 8", "position": "HR"},
+        {"surname": "Moroz", "address": "Uzhhorod, Soborna St. 9", "position": "Engineer"},
+        {"surname": "Lysenko", "address": "Vinnytsia, Hrushevskoho St. 10", "position": "Analyst"},
+    ]
+    with open(filename, "w") as f:
+        json.dump(data, f, indent=4)
+
+# Виведення JSON файлу на екран
+def display_json_file(filename):
+    with open(filename, "r") as f:
+        data = json.load(f)
+        for record in data:
+            print(record)
+
+# Додавання нового запису до JSON файлу
+def add_record_to_json(filename):
+    surname = input("Введіть прізвище: ")
+    address = input("Введіть адресу: ")
+    position = input("Введіть посаду: ")
+    new_record = {"surname": surname, "address": address, "position": position}
+    with open(filename, "r") as f:
+        data = json.load(f)
+    data.append(new_record)
+    with open(filename, "w") as f:
+        json.dump(data, f, indent=4)
+    print("Новий запис додано.")
+
+# Видалення запису з JSON файлу
+def delete_record_from_json(filename):
+    surname = input("Введіть прізвище для видалення: ")
+    with open(filename, "r") as f:
+        data = json.load(f)
+    data = [record for record in data if record["surname"] != surname]
+    with open(filename, "w") as f:
+        json.dump(data, f, indent=4)
+    print("Запис видалено.")
+
+# Пошук даних у JSON файлі
+def search_in_json(filename):
+    search_field = input("Введіть поле для пошуку (surname, address, position): ")
+    search_value = input("Введіть значення для пошуку: ")
+    with open(filename, "r") as f:
+        data = json.load(f)
+    results = [record for record in data if record.get(search_field) == search_value]
+    if results:
+        print("Знайдені записи:")
+        for result in results:
+            print(result)
+    else:
+        print("Записів не знайдено.")
+
+# Завдання за варіантом
+def task_by_variant(filename, result_filename):
+    letter = input("Введіть літеру для пошуку прізвищ: ").strip().upper()
+    with open(filename, "r") as f:
+        data = json.load(f)
+    results = [{"surname": record["surname"], "address": record["address"]}
+               for record in data if record["surname"].startswith(letter)]
+    if results:
+        print("Прізвища, які починаються на літеру", letter, ":")
+        for result in results:
+            print(result)
+    else:
+        print("Співробітників з такими прізвищами немає.")
+    with open(result_filename, "w") as f:
+        json.dump(results, f, indent=4)
+    print("Результати записано до файлу", result_filename)
+
+def main():
+    filename = "employees.json"
+    result_filename = "results.json"
+    create_json_file(filename)
+    while True:
+        print("\n--- Меню ---")
+        print("1. Вивести JSON файл")
+        print("2. Додати запис до JSON файлу")
+        print("3. Видалити запис із JSON файлу")
+        print("4. Пошук у JSON файлі")
+        print("5. Виконати завдання за варіантом")
+        print("6. Вийти")
+        choice = input("Оберіть опцію: ")
+        if choice == "1":
+            display_json_file(filename)
+        elif choice == "2":
+            add_record_to_json(filename)
+        elif choice == "3":
+            delete_record_from_json(filename)
+        elif choice == "4":
+            search_in_json(filename)
+        elif choice == "5":
+            task_by_variant(filename, result_filename)
+        elif choice == "6":
+            print("Програма завершена.")
+            break
+        else:
+            print("Невірний вибір. Спробуйте ще раз.")
+
+if __name__ == "__main__":
+    main()
