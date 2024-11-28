@@ -1,0 +1,55 @@
+import json
+import os
+import matplotlib.pyplot as plt
+from collections import Counter
+
+def create_json_file(filename):
+    data = [
+        {"surname": "Ivanov", "address": "Kyiv, Shevchenka St. 1", "position": "Manager"},
+        {"surname": "Petrov", "address": "Lviv, Bandera St. 2", "position": "Engineer"},
+        {"surname": "Sidorov", "address": "Kharkiv, Sumskaya St. 3", "position": "Accountant"},
+        {"surname": "Bondarenko", "address": "Dnipro, Heroes St. 4", "position": "Designer"},
+        {"surname": "Shevchenko", "address": "Odessa, Pushkina St. 5", "position": "Developer"},
+        {"surname": "Tkachenko", "address": "Zaporizhzhia, Tsentralna St. 6", "position": "Manager"},
+        {"surname": "Kravchuk", "address": "Chernihiv, Nezalezhnosti St. 7", "position": "QA Engineer"},
+        {"surname": "Dovzhenko", "address": "Poltava, Kotsiubynskoho St. 8", "position": "HR"},
+        {"surname": "Moroz", "address": "Uzhhorod, Soborna St. 9", "position": "Engineer"},
+        {"surname": "Lysenko", "address": "Vinnytsia, Hrushevskoho St. 10", "position": "Analyst"},
+    ]
+    with open(filename, "w") as f:
+        json.dump(data, f, indent=4)
+
+
+def read_data(filename):
+    with open(filename, "r") as f:
+        data = json.load(f)
+    return data
+
+
+def build_pie_chart(data):
+    positions = [record["position"] for record in data]
+    counter = Counter(positions)
+
+    labels = counter.keys()
+    sizes = counter.values()
+
+    plt.figure(figsize=(8, 8))
+    plt.pie(
+        sizes,
+        labels=labels,
+        autopct='%1.1f%%',
+        startangle=140,
+        colors=plt.cm.Paired.colors
+    )
+    plt.title("Розподіл співробітників за посадами")
+    plt.show()
+
+
+filename = "employees.json"
+
+if not os.path.exists(filename):
+    print(f"Файл '{filename}' не знайдено. Створюю файл...")
+    create_json_file(filename)
+
+data = read_data(filename)
+build_pie_chart(data)
