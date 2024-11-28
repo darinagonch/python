@@ -1,1 +1,20 @@
+import numpy as np
+import matplotlib.pyplot as plt
 
+
+x = np.linspace(-5, 5, 500)
+x = x[x != 0]
+y = (1 / x) * np.sin(5 * x)
+
+plt.figure(figsize=(10, 6))
+plt.plot(x, y, linestyle='-', color='blue', linewidth=2, label=r'$y(x)=\frac{\sin(5x)}{x}$')
+
+plt.title('Графік функції $y(x)=\\frac{\\sin(5x)}{x}$', fontsize=14)
+plt.xlabel('x', fontsize=12)
+plt.ylabel('y', fontsize=12)
+plt.axhline(0, color='black', linewidth=0.5, linestyle='--')  # Лінія осі x
+plt.axvline(0, color='black', linewidth=0.5, linestyle='--')  # Лінія осі y
+plt.grid(color='gray', linestyle='--', linewidth=0.5)
+plt.legend(fontsize=12)
+
+plt.show()
