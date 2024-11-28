@@ -1,0 +1,66 @@
+import requests
+import matplotlib.pyplot as plt
+
+# Функція для отримання даних через API World Bank
+def fetch_data(country_code, indicator, start_year, end_year):
+    url = f"http://api.worldbank.org/v2/country/{country_code}/indicator/{indicator}?format=json&date={start_year}:{end_year}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        if len(data) > 1:
+            return {
+                int(entry["date"]): entry["value"]
+                for entry in data[1]
+                if entry["value"] is not None
+            }
+    return {}
+
+def plot_data(country1_data, country2_data, country1_name, country2_name, indicator):
+    plt.figure(figsize=(10, 6))
+
+    years1 = list(country1_data.keys())
+    values1 = list(country1_data.values())
+
+    years2 = list(country2_data.keys())
+    values2 = list(country2_data.values())
+
+    plt.plot(years1, values1, marker='o', label=country1_name)
+    plt.plot(years2, values2, marker='s', label=country2_name)
+
+    plt.title(f"{indicator} Over Time")
+    plt.xlabel("Year")
+    plt.ylabel("Value")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+def plot_bar_chart(country_data, country_name, indicator):
+    years = list(country_data.keys())
+    values = list(country_data.values())
+
+    plt.figure(figsize=(10, 6))
+    plt.bar(years, values, color='skyblue')
+    plt.title(f"{indicator} for {country_name}")
+    plt.xlabel("Year")
+    plt.ylabel("Value")
+    plt.show()
+
+if __name__ == "__main__":
+    country1_code = input("Введіть код першої країни (наприклад, UKR для України): ")
+    country2_code = input("Введіть код другої країни (наприклад, USA для США): ")
+
+    indicator = "SE.PRM.UNER"  # Children out of school, primary
+
+    start_year = 2004
+    end_year = 2024
+
+    country1_data = fetch_data(country1_code, indicator, start_year, end_year)
+    country2_data = fetch_data(country2_code, indicator, start_year, end_year)
+
+    if not country1_data or not country2_data:
+        print("Не вдалося отримати дані для однієї або обох країн.")
+    else:
+        plot_data(country1_data, country2_data, country1_code, country2_code, "Children out of school, primary")
+
+        plot_bar_chart(country1_data, country1_code, "Children out of school, primary")
+        plot_bar_chart(country2_data, country2_code, "Children out of school, primary")
