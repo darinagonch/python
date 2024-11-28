@@ -1,0 +1,33 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Крок 1: Завантаження даних
+file_path = 'comptagevelo20152.csv.csv'
+data = pd.read_csv(file_path)
+
+# Крок 2: Перетворення колонки "Date" в формат дати та встановлення її як індексу
+data['Date'] = pd.to_datetime(data['Date'], format='%d/%m/%Y')  # Змінено формат дати
+data.set_index('Date', inplace=True)
+
+# Крок 3: Вивід перших кількох рядків таблиці
+print("Перші рядки таблиці:\n")
+print(data.head())
+
+# Крок 4: Побудова графіка використання велосипедів для всіх станцій
+plt.figure(figsize=(15, 8))
+
+# Відбір лише числових колонок (якщо є нечислові)
+numeric_columns = data.select_dtypes(include=['number']).columns
+for column in numeric_columns:
+    plt.plot(data.index, data[column], label=column)
+
+# Крок 5: Додавання підписів та легенди
+plt.title("Тренди використання велосипедів у 2015 році", fontsize=16)
+plt.xlabel("Дата", fontsize=12)
+plt.ylabel("Кількість велосипедистів", fontsize=12)
+plt.legend(title="Велосипедні станції", bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=10)
+plt.grid(visible=True, linestyle='--', alpha=0.5)
+plt.tight_layout()
+
+# Крок 6: Відображення графіка
+plt.show()
