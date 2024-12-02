@@ -1,0 +1,44 @@
+import nltk
+from nltk.corpus import gutenberg
+from nltk.probability import FreqDist
+import matplotlib.pyplot as plt
+import string
+
+nltk.download('gutenberg')
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('punkt_tab')
+
+text_name = "austen-persuasion.txt"
+text = gutenberg.raw(text_name)
+
+words = nltk.word_tokenize(text)
+num_words = len(words)
+print(f"Number of words in {text_name}: {num_words}")
+
+fdist = FreqDist(words)
+most_common_words = fdist.most_common(10)
+
+plt.figure(figsize=(10, 5))
+plt.bar(*zip(*most_common_words))
+plt.title(f"Most Common Words in {text_name}")
+plt.xlabel("Words")
+plt.ylabel("Frequency")
+plt.xticks(rotation=45)
+plt.show()
+
+stopwords = set(nltk.corpus.stopwords.words('english'))
+punctuation = set(string.punctuation)
+
+filtered_words = [word.lower() for word in words if word.lower() not in stopwords and word not in punctuation]
+
+fdist_filtered = FreqDist(filtered_words)
+most_common_filtered_words = fdist_filtered.most_common(10)
+
+plt.figure(figsize=(10, 5))
+plt.bar(*zip(*most_common_filtered_words))
+plt.title(f"Most Common Words (Filtered) in {text_name}")
+plt.xlabel("Words")
+plt.ylabel("Frequency")
+plt.xticks(rotation=45)
+plt.show()
