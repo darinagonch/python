@@ -1,0 +1,38 @@
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer, PorterStemmer
+from nltk.corpus import stopwords
+import string
+
+
+nltk.download('wordnet')
+nltk.download('stopwords')
+
+sample_text = """A large language model (LLM) is a type of computational model designed for natural language processing tasks such as language generation. As language models, LLMs acquire these abilities by learning statistical relationships from vast amounts of text during a self-supervised and semi-supervised training process."""
+sample_text = ' '.join(sample_text.split()[:100])
+
+with open('sample_text.txt', 'w') as f:
+    f.write(sample_text)
+
+with open('sample_text.txt', 'r') as f:
+    text = f.read()
+
+words = word_tokenize(text)
+
+lemmatizer = WordNetLemmatizer()
+stemmer = PorterStemmer()
+
+lemmatized_words = [lemmatizer.lemmatize(word) for word in words]
+stemmed_words = [stemmer.stem(word) for word in words]
+
+stop_words = set(stopwords.words('english'))
+filtered_words = [word for word in words if word.lower() not in stop_words]
+
+filtered_words_no_punct = [word for word in filtered_words if word not in string.punctuation]
+
+processed_text = ' '.join(filtered_words_no_punct)
+
+with open('processed_text.txt', 'w') as f:
+    f.write(processed_text)
+
+print("Processed text saved to 'processed_text.txt'")
